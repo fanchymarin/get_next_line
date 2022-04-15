@@ -6,36 +6,80 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:34:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/07 18:17:15 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/04/15 18:49:16 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_returnline(char *buf)
+{
+	int		i;
+	char	*p;
+	
+	i = 0;
+	while (buf[i] != '\n')
+		++i;
+	p = (char *) malloc(sizeof(char) * i + 2);
+	i = 0;
+	while (buf[i] != '\n')
+	{
+		p[i] = buf[i];
+		i++;
+	}
+	p[i++] = '\n';
+	p[i] = 0;
+	return (p);
+}
+
+char	*ft_memread(int fd, char *buf)
+{
+	char	*p;
+
+	p = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	while (!ft_strchr(buf, '\n'))
+	{
+		read(fd, p, BUFFER_SIZE);
+		p[BUFFER_SIZE] = 0;
+		buf = ft_strjoin(buf, p);
+	}
+	free(p);
+	return (buf);
+}
+
 char	*get_next_line(int fd)
 {
-	char				*buf;
-	size_t				buffsize;
-	static size_t		line = 0;
+	static	char	*memory = 0;
+	char			*buf;
+	int				read_stat;
 
-	buffsize = BUFFER_SIZE + 1;
-	buf = (char *) malloc(sizeof(char *) * BUFFER_SIZE);
-	if (!buf)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (0);
-	buf = ft_readline(buf, &buffsize, &line, fd);
-	if (!buffsize)
+	if (!memory)
+		memory = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!memory)
+		return (0);
+	if (!(*memory))
 	{
-		free(buf);
-		return (0);
+		read_stat = read(fd, memory, BUFFER_SIZE);
+		if (read_stat <= 0)
+			return (0);
+		memory[BUFFER_SIZE] = 0;
 	}
-	if (!ft_checknextnl(fd, line))
-		return (0);
-	return (ft_callocrest(buf));
+	buf = ft_memread(fd, memory);
+	memory = ft_strchr(buf, '\n') + 1;
+	return (ft_returnline(buf));
 }
-
+/*
 int	main(void)
 {
-	int n = 3;
-	while (n--)
-		printf("%s", get_next_line(open("prueba.txt", O_RDONLY)));
-}
+	int	fd;
+
+	fd = open("prueba.txt", O_RDONLY);
+
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	close (fd);
+
+	return (0);
+}*/

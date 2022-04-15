@@ -5,68 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 17:53:49 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/07 18:14:55 by fmarin-p         ###   ########.fr       */
+/*   Created: 2022/04/14 16:25:53 by fmarin-p          #+#    #+#             */
+/*   Updated: 2022/04/15 18:49:13 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_callocrest(char *str)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	char	*p;
 
-	i = 0;
-	while (str[i] != '\n')
-		++i;
-	while (++i <= BUFFER_SIZE)
-		str[i] = 0;
-	return (str);
-}
-
-char	*ft_readline(char *buf, size_t *buffsize, size_t *line, int fd)
-{
-	size_t	i;
-	size_t	i2;
-
-	i = 0;
-	i2 = 0;
-	while (--(*buffsize))
+	if (c > 255)
+		c -= 256;
+	while (*s)
 	{
-		read(fd, &buf[i++], 1);
-		if (buf[i - 1] == '\n')
+		if (*s == c)
 		{
-			if (i2 == *line)
-			{
-				(*line)++;
-				break ;
-			}
-			else
-			{
-				*buffsize = BUFFER_SIZE + 1;
-				i = 0;
-				i2++;
-			}
+			p = (char *)s;
+			return (p);
 		}
+		s++;
 	}
-	return (buf);
+	if (c == 0)
+	{
+		p = (char *)s;
+		return (p);
+	}	
+	free((char *) s);
+	return (0);
 }
 
-int	ft_checknextnl(int fd, size_t line)
+void	*ft_calloc(size_t count, size_t size)
 {
-	char	*buf;
-	size_t	buffsize;
+	void	*p;
+	void	*p2;
+	int		i;
 
-	buf = (char *) malloc(sizeof(char *));
-	buffsize = BUFFER_SIZE + 1;
-	while(--buffsize)
-	{
-		read(fd, buf, 1);
-		if (*buf == '\n')
-			--line;
-	}
-	free(buf);
-	if (!line)
+	if (size > ((size_t) - 1)/2 && count > ((size_t) - 1)/2)
 		return (0);
-	return (1);
+	p = (void *)malloc(size * count);
+	if (!p)
+		return (0);
+	i = size * count;
+	p2 = p;
+	while (i--)
+		*(char *)p2++ = 0;
+	return (p);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*p;
+	int		i;
+
+	if (!s1 || !s2)
+		return (0);
+	p = (char *) malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!p)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		p[i] = s1[i];
+		++i;
+	}
+	while (*s2)
+		p[i++] = *(s2++);
+	p[i] = 0;
+	free((char *)s1);
+	return (p);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		++i;
+	return (i);
 }
