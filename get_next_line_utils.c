@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 16:25:53 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/15 18:49:13 by fmarin-p         ###   ########.fr       */
+/*   Created: 2022/04/19 18:49:23 by fmarin-p          #+#    #+#             */
+/*   Updated: 2022/04/19 18:53:36 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ char	*ft_strchr(const char *s, int c)
 	{
 		p = (char *)s;
 		return (p);
-	}	
-	free((char *) s);
+	}
 	return (0);
 }
 
@@ -42,7 +41,7 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*p2;
 	int		i;
 
-	if (size > ((size_t) - 1)/2 && count > ((size_t) - 1)/2)
+	if (size > ((size_t) - 1) / 2 && count > ((size_t) - 1) / 2)
 		return (0);
 	p = (void *)malloc(size * count);
 	if (!p)
@@ -73,7 +72,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (*s2)
 		p[i++] = *(s2++);
 	p[i] = 0;
-	free((char *)s1);
 	return (p);
 }
 
