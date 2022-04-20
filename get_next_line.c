@@ -6,13 +6,13 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:34:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/19 18:52:53 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:54:31 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_saverest(char *memory)
+char	*save_rest(char *memory)
 {
 	int		i;
 	int		i2;
@@ -35,7 +35,7 @@ char	*ft_saverest(char *memory)
 	return (buf);
 }
 
-char	*ft_returnline(char *buf)
+char	*return_line(char *buf)
 {
 	int		i;
 	char	*p;
@@ -58,7 +58,7 @@ char	*ft_returnline(char *buf)
 	return (p);
 }
 
-char	*ft_concatenate(char *buf, char *memory)
+char	*concat_str(char *buf, char *memory)
 {
 	char	*concat;
 
@@ -67,7 +67,7 @@ char	*ft_concatenate(char *buf, char *memory)
 	return (concat);
 }
 
-char	*ft_read_fd(int fd, char *memory)
+char	*read_fd(int fd, char *memory)
 {
 	int		readb;
 	char	*buf;
@@ -87,7 +87,7 @@ char	*ft_read_fd(int fd, char *memory)
 			return (0);
 		}
 		buf[readb] = 0;
-		memory = ft_concatenate(buf, memory);
+		memory = concat_str(buf, memory);
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
@@ -102,11 +102,11 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (0);
-	memory = ft_read_fd(fd, memory);
+	memory = read_fd(fd, memory);
 	if (!memory)
 		return (0);
-	line = ft_returnline(memory);
-	memory = ft_saverest(memory);
+	line = return_line(memory);
+	memory = save_rest(memory);
 	return (line);
 }
 /*
@@ -115,13 +115,18 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
+	char	*p;
 
 	i = 10;
-	fd = open("gnlTester/files/alternate_line_nl_no_nl", O_RDONLY);
+	fd = open("prueba.txt", O_RDONLY);
 	while (i--)
-		printf("%s", get_next_line(fd));
+	{
+		p = get_next_line(0);
+		printf("%s", p);
+		free(p);
+	}
 	close (fd);
 	return (0);
 }*/
