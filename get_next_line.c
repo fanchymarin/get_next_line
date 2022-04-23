@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 17:34:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/20 12:54:31 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2022/04/23 19:18:29 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,24 +109,3 @@ char	*get_next_line(int fd)
 	memory = save_rest(memory);
 	return (line);
 }
-/*
-#include <stdio.h>
-#include <fcntl.h>
-
-int	main(void)
-{
-	int		fd;
-	int		i;
-	char	*p;
-
-	i = 10;
-	fd = open("prueba.txt", O_RDONLY);
-	while (i--)
-	{
-		p = get_next_line(0);
-		printf("%s", p);
-		free(p);
-	}
-	close (fd);
-	return (0);
-}*/
