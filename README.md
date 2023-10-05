@@ -1,4 +1,4 @@
-# get_next_line - Read Lines from File Descriptors
+# get_next_line - Read Lines from File Descriptors - ⭐Grade 125/100
 
 The `get_next_line` function is designed to read text files pointed to by file descriptors, one line at a time. It allows repeated calls (e.g., using a loop) to read a file or standard input sequentially.
 
